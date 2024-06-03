@@ -77,6 +77,7 @@ class Game:
                 self.client.change_tile(x, y, tile)
 
 if __name__ == "__main__":
-    server_ip = '10.0.0.154'  # Replace with the actual server IP if needed
+    server_ip = input("ENTER SERVER IP: ")
     game = Game(server_ip)
     game.start()
+
