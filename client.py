@@ -10,6 +10,8 @@ class Client:
         self.tree_map = None
         self.rock_map = None
         self.tile_map = None
+        self.my_player = None
+        self.all_players = None
         self.lock = threading.Lock()
         self.start()
 
@@ -17,9 +19,6 @@ class Client:
         # Receive initial data
         data = self.client.recv(1000000)
         maps = json.loads(data.decode('utf-8'))
-        print("Initial tree map:", maps['tree_map'])
-        print("Initial rock map:", maps['rock_map'])
-        print("Initial tile map:", maps['tile_map'])
         self.tree_map = maps['tree_map']
         self.rock_map = maps['rock_map']
         self.tile_map = maps['tile_map']
@@ -44,13 +43,14 @@ class Client:
                     with self.lock:
                         if 'tree_map' in maps:
                             self.tree_map = maps['tree_map']
-                            print("Updated tree map:", self.tree_map)
                         if 'rock_map' in maps:
                             self.rock_map = maps['rock_map']
-                            print("Updated rock map:", self.rock_map)
                         if 'tile_map' in maps:
                             self.tile_map = maps['tile_map']
-                            print("Updated tile map:", self.tile_map)
+                        if 'my_player' in maps:
+                            self.tile_map = maps['my_player']
+                        if 'all_players' in maps:
+                            self.tile_map = maps['all_players']
 
                 except json.JSONDecodeError:
                     break  # Break the loop if no more complete JSON objects are found
